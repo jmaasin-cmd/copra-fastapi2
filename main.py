@@ -1,0 +1,36 @@
+from fastapi import FastAPI
+import joblib
+import numpy as np
+
+app = FastAPI()
+
+# Load models
+svm_model = joblib.load("svm_model.pkl")
+rf_model = joblib.load("rf_model.pkl")
+knn_model = joblib.load("knn_model.pkl")
+log_model = joblib.load("logistic_model.pkl")
+
+
+@app.get("/")
+def home():
+    return {"message": "Copra Quality ML API running"}
+
+
+@app.post("/predict")
+def predict(moisture: float, temperature: float, color: int):
+
+    try:
+
+        data = np.array([[moisture, temperature, color]])
+
+        results = {
+            "SVM": str(svm_model.predict(data)[0]),
+            "Random Forest": str(rf_model.predict(data)[0]),
+            "KNN": str(knn_model.predict(data)[0]),
+            "Logistic Regression": str(log_model.predict(data)[0])
+        }
+
+        return results
+
+    except Exception as e:
+        return {"error": str(e)}
