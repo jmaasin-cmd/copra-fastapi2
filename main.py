@@ -40,15 +40,13 @@ def predict(data: InputData):
     # 🐞 DEBUG: See incoming request data
     print("Incoming request:", data)
 
-    try: df = pd.DataFrame([{
-        "Moisture": data.moisture,
-        "RGB Color": data.rgb,
-        "Temperature": data.temperature
-    }])
+    try:
+        df = pd.DataFrame([{
+            "Moisture": data.moisture,
+            "RGB Color": data.rgb,
+            "Temperature": data.temperature
+        }])
 
-        # =========================
-        # 🤖 ML Predictions
-        # =========================
         results = {
             "SVM": str(svm_model.predict(df)[0]),
             "Random Forest": str(rf_model.predict(df)[0]),
