@@ -36,8 +36,12 @@ def home():
 # =========================
 @app.post("/predict")
 def predict(data: InputData):
+
+    # 🐞 DEBUG: See incoming request data
+    print("Incoming request:", data)
+
     try:
-        # ✅ Use DataFrame (fixes sklearn warning)
+        # ✅ Convert to DataFrame (fix sklearn warning)
         df = pd.DataFrame([{
             "moisture": data.moisture,
             "temperature": data.temperature,
@@ -45,7 +49,7 @@ def predict(data: InputData):
         }])
 
         # =========================
-        # 🤖 ML Predictions (Inference)
+        # 🤖 ML Predictions
         # =========================
         results = {
             "SVM": str(svm_model.predict(df)[0]),
