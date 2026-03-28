@@ -17,7 +17,7 @@ log_model = joblib.load("logistic_model.pkl")
 # =========================
 # 📥 Input schema (JSON body)
 # =========================
-class InputData(BaseModel):
+class InputData(BaseModel): 
     moisture: float
     temperature: float
     rgb: int
