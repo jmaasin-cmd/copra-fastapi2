@@ -54,6 +54,8 @@ def predict(data: InputData):
             "Logistic Regression": str(log_model.predict(df)[0])
         }
 
+        print(f"ML Result: {results}")
+
         return {
             "input": df.to_dict(orient="records")[0],
             "predictions": results
