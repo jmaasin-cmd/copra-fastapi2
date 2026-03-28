@@ -40,9 +40,7 @@ def predict(data: InputData):
     # 🐞 DEBUG: See incoming request data
     print("Incoming request:", data)
 
-    try:
-
-    df = pd.DataFrame([{
+    try: df = pd.DataFrame([{
         "Moisture": data.moisture,
         "RGB Color": data.rgb,
         "Temperature": data.temperature
