@@ -32,7 +32,7 @@ def home():
 
 
 # =========================
-# 🔮 Prediction route
+# 🔮 Prediction route 
 # =========================
 @app.post("/predict")
 def predict(data: InputData):
@@ -42,11 +42,11 @@ def predict(data: InputData):
 
     try:
 
-        df = pd.DataFrame([{
+    df = pd.DataFrame([{
         "Moisture": data.moisture,
-        "Temperature": data.temperature,
-        "RGB Color": data.rgb
-        }])
+        "RGB Color": data.rgb,
+        "Temperature": data.temperature
+    }])
 
         # =========================
         # 🤖 ML Predictions
