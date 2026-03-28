@@ -1,42 +1,63 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import joblib
-import numpy as np
+import pandas as pd
 
 app = FastAPI()
 
-# Load models
+# =========================
+# 📦 Load trained ML models
+# =========================
 svm_model = joblib.load("svm_model.pkl")
 rf_model = joblib.load("rf_model.pkl")
 knn_model = joblib.load("knn_model.pkl")
 log_model = joblib.load("logistic_model.pkl")
 
-# ✅ Define request body
+
+# =========================
+# 📥 Input schema (JSON body)
+# =========================
 class InputData(BaseModel):
     moisture: float
     temperature: float
     rgb: int
 
 
+# =========================
+# 🏠 Home route
+# =========================
 @app.get("/")
 def home():
     return {"message": "Copra Quality ML API running"}
 
 
+# =========================
+# 🔮 Prediction route
+# =========================
 @app.post("/predict")
 def predict(data: InputData):
-
     try:
-        values = np.array([[data.moisture, data.temperature, data.rgb]])
+        # ✅ Use DataFrame (fixes sklearn warning)
+        df = pd.DataFrame([{
+            "moisture": data.moisture,
+            "temperature": data.temperature,
+            "rgb": data.rgb
+        }])
 
+        # =========================
+        # 🤖 ML Predictions (Inference)
+        # =========================
         results = {
-            "SVM": str(svm_model.predict(values)[0]),
-            "Random Forest": str(rf_model.predict(values)[0]),
-            "KNN": str(knn_model.predict(values)[0]),
-            "Logistic Regression": str(log_model.predict(values)[0])
+            "SVM": str(svm_model.predict(df)[0]),
+            "Random Forest": str(rf_model.predict(df)[0]),
+            "KNN": str(knn_model.predict(df)[0]),
+            "Logistic Regression": str(log_model.predict(df)[0])
         }
 
-        return results
+        return {
+            "input": df.to_dict(orient="records")[0],
+            "predictions": results
+        }
 
     except Exception as e:
         return {"error": str(e)}
