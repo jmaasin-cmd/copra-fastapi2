@@ -41,11 +41,11 @@ def predict(data: InputData):
     print("Incoming request:", data)
 
     try:
-        # ✅ Convert to DataFrame (fix sklearn warning)
+
         df = pd.DataFrame([{
-            "moisture": data.moisture,
-            "temperature": data.temperature,
-            "rgb": data.rgb
+        "Moisture": data.moisture,
+        "Temperature": data.temperature,
+        "RGB Color": data.rgb
         }])
 
         # =========================
