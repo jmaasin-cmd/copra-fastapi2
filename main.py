@@ -17,11 +17,11 @@ def home():
 
 
 @app.post("/predict")
-def predict(moisture: float, temperature: float, color: int):
+def predict(moisture: float, temperature: float, rgb: int):
 
     try:
 
-        data = np.array([[moisture, temperature, color]])
+        data = np.array([[moisture, temperature, rgb]])
 
         results = {
             "SVM": str(svm_model.predict(data)[0]),
